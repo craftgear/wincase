@@ -6,9 +6,9 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
-)
 
-//TODO テスト書く
+	"github.com/fatih/color"
+)
 
 func wincase(filename string) string {
 	var cases = []struct {
@@ -30,21 +30,36 @@ func wincase(filename string) string {
 			filename = strings.Replace(filename, v.input, v.output, -1)
 		}
 	}
-	return filename
+	return strings.Trim(filename, " ")
+}
+
+func ren(old, new string, dryRun, verbose bool) error {
+	if dryRun {
+		fmt.Printf("rename %s to %s\n", color.RedYellowString(old), color.GreenString(new))
+		return nil
+	} else {
+		if verbose {
+			fmt.Printf("renaming: %s to %s\n", color.RedYellowString(old), color.GreenString(new))
+		}
+		return os.Rename(old, new)
+	}
 }
 
 func main() {
 	var dir string
 	var help bool
 	var dryRun bool
+	var verbose bool
+	//TODO verbose出力を色分け
 
 	//コマンドラインオプション解析
 	flag.BoolVar(&help, "h", false, "show help")
 	flag.BoolVar(&dryRun, "dry-run", false, "dry run")
+	flag.BoolVar(&verbose, "v", false, "verbose mode")
 	flag.Parse()
 
 	if help {
-		fmt.Println("\nwincase - make files live even on windows\n wincase is a simple utility to replace forbidden characters on Windows platofrms with 2-byte corresponding characters\n")
+		fmt.Println("\nwincase - make files live even on windows\n wincase is a simple utility to recursively replace forbidden characters on Windows platofrms with 2-byte corresponding characters\n")
 		fmt.Println("Usage: wincase [options] target_dir")
 		fmt.Println("Options:")
 		flag.PrintDefaults()
@@ -80,13 +95,9 @@ func main() {
 				dirStack = append(dirStack, path)
 			} else {
 				newPath := filepath.Join(parentDir, casedName)
-				if dryRun {
-					fmt.Printf("rename %s to %s\n", path, newPath)
-				} else {
-					err := os.Rename(path, newPath)
-					if err != nil {
-						return err
-					}
+				err := ren(path, newPath, dryRun, verbose)
+				if err != nil {
+					fmt.Printf("err = %+v\n", err)
 				}
 			}
 
@@ -103,13 +114,9 @@ func main() {
 		parentDir := filepath.Dir(path)
 
 		newPath := filepath.Join(parentDir, casedName)
-		if dryRun {
-			fmt.Printf("rename %s to %s\n", path, newPath)
-		} else {
-			err := os.Rename(path, newPath)
-			if err != nil {
-				fmt.Printf("err = %+v\n", err)
-			}
+		err := ren(path, newPath, dryRun, verbose)
+		if err != nil {
+			fmt.Printf("err = %+v\n", err)
 		}
 	}
 }
