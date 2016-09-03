@@ -35,22 +35,35 @@ func wincase(filename string) string {
 
 func ren(old, new string, dryRun, verbose bool) error {
 	if dryRun {
-		fmt.Printf("rename %s to %s\n", color.RedYellowString(old), color.GreenString(new))
+		fmt.Printf("rename %s to %s\n", color.RedString(old), color.GreenString(new))
 		return nil
 	} else {
 		if verbose {
-			fmt.Printf("renaming: %s to %s\n", color.RedYellowString(old), color.GreenString(new))
+			fmt.Printf("renaming: %s to %s\n", color.RedString(old), color.GreenString(new))
 		}
 		return os.Rename(old, new)
 	}
 }
 
+//TODO traverseという関数を作って、その中でWalkする
+//func traverse() error {
+
+//}
+
 func main() {
+	showHelp := func() {
+		fmt.Println("\n ＊ wincase - make files live even on windows\n")
+		fmt.Println("\twincase is a simple utility to recursively replace\n\tforbidden characters on Windows platforms\n\twith 2-byte corresponding characters\n")
+		fmt.Println("Usage: wincase [options] target_dir\n")
+		fmt.Println("Options:")
+		flag.PrintDefaults()
+		os.Exit(0)
+	}
+
 	var dir string
 	var help bool
 	var dryRun bool
 	var verbose bool
-	//TODO verbose出力を色分け
 
 	//コマンドラインオプション解析
 	flag.BoolVar(&help, "h", false, "show help")
@@ -59,23 +72,28 @@ func main() {
 	flag.Parse()
 
 	if help {
-		fmt.Println("\nwincase - make files live even on windows\n wincase is a simple utility to recursively replace forbidden characters on Windows platofrms with 2-byte corresponding characters\n")
-		fmt.Println("Usage: wincase [options] target_dir")
-		fmt.Println("Options:")
-		flag.PrintDefaults()
-		os.Exit(0)
+		showHelp()
 	}
 
 	// 対象ディレクトリ
 	if args := flag.Args(); len(args) > 0 {
 		dir = args[0]
 	} else {
-		dir = "./"
+		showHelp()
+		//_dir, err := os.Getwd()
+		//if err != nil {
+		//log.Fatal(err)
+		//}
+		//dir = _dir
 	}
 
 	dirStack := []string{}
 
 	filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+
 		if path == dir {
 			return nil
 		}
@@ -105,8 +123,6 @@ func main() {
 		return nil
 	})
 
-	//fmt.Printf("dirStack = %+v\n", dirStack)
-
 	for i := len(dirStack) - 1; i >= 0; i-- {
 		path := dirStack[i]
 
@@ -119,4 +135,11 @@ func main() {
 			fmt.Printf("err = %+v\n", err)
 		}
 	}
+
+	if verbose {
+		fmt.Println("done.")
+	}
 }
+
+// TODO マルチプラットフォームバイナリ生成
+// TODO ドキュメントにインストール方法と使い方を書く
