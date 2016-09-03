@@ -67,7 +67,7 @@ func main() {
 
 	//コマンドラインオプション解析
 	flag.BoolVar(&help, "h", false, "show help")
-	flag.BoolVar(&dryRun, "-dry-run", false, "dry run")
+	flag.BoolVar(&dryRun, "dry-run", false, "dry run")
 	flag.BoolVar(&verbose, "v", false, "verbose mode")
 	flag.Parse()
 
