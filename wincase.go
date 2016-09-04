@@ -45,11 +45,6 @@ func ren(old, new string, dryRun, verbose bool) error {
 	}
 }
 
-//TODO traverseという関数を作って、その中でWalkする
-//func traverse() error {
-
-//}
-
 func main() {
 	showHelp := func() {
 		fmt.Println("\n ＊ wincase - make files live even on windows\n")
@@ -141,5 +136,7 @@ func main() {
 	}
 }
 
-// TODO マルチプラットフォームバイナリ生成
-// TODO ドキュメントにインストール方法と使い方を書く
+//TODO traverseという関数を作って、その中でWalkする
+//func traverse() error {
+
+//}
