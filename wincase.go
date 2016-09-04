@@ -45,43 +45,7 @@ func ren(old, new string, dryRun, verbose bool) error {
 	}
 }
 
-func main() {
-	showHelp := func() {
-		fmt.Println("\n ＊ wincase - make files live even on windows\n")
-		fmt.Println("\twincase is a simple utility to recursively replace\n\tforbidden characters on Windows platforms\n\twith 2-byte corresponding characters\n")
-		fmt.Println("Usage: wincase [options] target_dir\n")
-		fmt.Println("Options:")
-		flag.PrintDefaults()
-		os.Exit(0)
-	}
-
-	var dir string
-	var help bool
-	var dryRun bool
-	var verbose bool
-
-	//コマンドラインオプション解析
-	flag.BoolVar(&help, "h", false, "show help")
-	flag.BoolVar(&dryRun, "dry-run", false, "dry run")
-	flag.BoolVar(&verbose, "v", false, "verbose mode")
-	flag.Parse()
-
-	if help {
-		showHelp()
-	}
-
-	// 対象ディレクトリ
-	if args := flag.Args(); len(args) > 0 {
-		dir = args[0]
-	} else {
-		showHelp()
-		//_dir, err := os.Getwd()
-		//if err != nil {
-		//log.Fatal(err)
-		//}
-		//dir = _dir
-	}
-
+func traverse(dir string, dryRun, verbose bool) {
 	dirStack := []string{}
 
 	filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
@@ -131,12 +95,43 @@ func main() {
 		}
 	}
 
+}
+
+func main() {
+	showHelp := func() {
+		fmt.Println("\n ＊ wincase - make files live even on windows\n")
+		fmt.Println("\twincase is a simple utility to recursively replace\n\tforbidden characters on Windows platforms\n\twith 2-byte corresponding characters\n")
+		fmt.Println("Usage: wincase [options] target_dir\n")
+		fmt.Println("Options:")
+		flag.PrintDefaults()
+		os.Exit(0)
+	}
+
+	var dir string
+	var help bool
+	var dryRun bool
+	var verbose bool
+
+	//コマンドラインオプション解析
+	flag.BoolVar(&help, "h", false, "show help")
+	flag.BoolVar(&dryRun, "dry-run", false, "dry run")
+	flag.BoolVar(&verbose, "v", false, "verbose mode")
+	flag.Parse()
+
+	if help {
+		showHelp()
+	}
+
+	// 対象ディレクトリ
+	if args := flag.Args(); len(args) > 0 {
+		dir = args[0]
+	} else {
+		showHelp()
+	}
+
+	traverse(dir, dryRun, verbose)
+
 	if verbose {
 		fmt.Println("done.")
 	}
 }
-
-//TODO traverseという関数を作って、その中でWalkする
-//func traverse() error {
-
-//}

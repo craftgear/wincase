@@ -6,29 +6,29 @@ Windows platforms have forbidden characters on filenames/directory names.
 
 This utility renames the forbidden characters with corresponding 2-byte characters.
 
-For example it renames `foo*bar.txt` to `foo＊bar.txt`.
+For example it renames ``foo*bar.txt`` to ``foo＊bar.txt``.
 
 It searches files recursively from the directory you specify.
 
 # Install
 
-Copy a file from `bin/your_platform` directory to your system.
+Copy a file from ``bin/your_platform`` directory to your system.
 
 or
 
-`go get github.com/craftgear/wincase`
+``go get github.com/craftgear/wincase``
 
 
 # Usage
 
 To rename all files under the current directory, run:
-`wincase ./`
+``wincase ./``
 
 To display files to rename without renaming(so-called "dry run"), run:
-`wincase -dry-run ./`
+``wincase -dry-run ./``
 
 To run in verbose mode, run:
-`wincase -v ./`
+``wincase -v ./``
 
 To show help, run:
-`wincase -h`
+``wincase -h``

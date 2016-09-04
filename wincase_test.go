@@ -1,6 +1,7 @@
 package main
 
 import (
+	"os"
 	"testing"
 
 	"craftgear.net/fileutils"
@@ -60,14 +61,30 @@ func TestRen(t *testing.T) {
 	}
 }
 
-//TODO TestTraverse
-//testディレクトリを_testとしてコピーしてバックアップする
-//err := fileutils.CpDir("./_test", "./test", 0755)
-//if err != nil {
-//t.Error(err)
-//}
-// TODO
-//testディレクトリに対してdryRun testディレクトリ以下はそのまま
-//testディレクトリに対してリネーム実行 testディレクトリいかがリネームされている
-//testディレクトリを削除
-//_testディレクトリをtestディレクトリにリネーム
+func TestTraverse(t *testing.T) {
+	//testディレクトリを_testとしてコピーしてバックアップする
+	testDir := "./test"
+	testDirBackup := "./_test"
+
+	err := fileutils.CpDir(testDirBackup, testDir, 0755)
+	if err != nil {
+		t.Error(err)
+	}
+
+	//testディレクトリに対してdryRun testディレクトリ以下はそのまま
+	traverse(testDir, true, false)
+	if fileutils.Exist(testDir+"/hoge*") == false {
+		t.Error("renaming should've not done.")
+	}
+
+	//testディレクトリに対してリネーム実行 testディレクトリいかがリネームされている
+	traverse(testDir, false, false)
+	if fileutils.Exist(testDir + "/hoge*") {
+		t.Error("renaming should've done.")
+	}
+	//testディレクトリを削除
+	os.RemoveAll(testDir)
+
+	//_testディレクトリをtestディレクトリにリネーム
+	os.Rename(testDirBackup, testDir)
+}
