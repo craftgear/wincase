@@ -4,7 +4,7 @@ import (
 	"os"
 	"testing"
 
-	"craftgear.net/fileutils"
+	"github.com/craftgear.net/fileutils"
 )
 
 func TestWinCase(t *testing.T) {
