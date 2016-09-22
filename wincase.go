@@ -100,7 +100,7 @@ func main() {
 	showHelp := func() {
 		fmt.Print("\n ＊ wincase - make files live even on windows\n\n")
 		fmt.Print("\twincase is a simple utility to recursively replace\n\tforbidden characters on Windows platforms\n\twith 2-byte corresponding characters\n\n")
-		fmt.Println("Usage: wincase [options] target_dir\n\n")
+		fmt.Print("Usage: wincase [options] target_dir\n\n")
 		fmt.Println("Options:")
 		flag.PrintDefaults()
 		os.Exit(0)
