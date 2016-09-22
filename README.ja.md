@@ -1,3 +1,8 @@
+[![Travis Build Status](https://travis-ci.org/craftgear/wincase.svg?branch=master)](https://travis-ci.org/craftgear/wincase)
+[![Go Report Card](https://goreportcard.com/badge/github.com/craftgear/wincase)](https://goreportcard.com/report/github.com/craftgear/wincase)
+[![LICENSE](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+<!--[![GoDoc](https://godoc.org/github.com/craftgear/wincase?status.svg)](https://godoc.org/github.com/craftgear/wincase)-->
+
 [English](https://github.com/craftgear/wincase/blob/master/README.md)
  / 日本語
 
