@@ -37,12 +37,11 @@ func ren(old, new string, dryRun, verbose bool) error {
 	if dryRun {
 		fmt.Printf("rename %s to %s\n", color.RedString(old), color.GreenString(new))
 		return nil
-	} else {
-		if verbose {
-			fmt.Printf("renaming: %s to %s\n", color.RedString(old), color.GreenString(new))
-		}
-		return os.Rename(old, new)
 	}
+	if verbose {
+		fmt.Printf("renaming: %s to %s\n", color.RedString(old), color.GreenString(new))
+	}
+	return os.Rename(old, new)
 }
 
 func traverse(dir string, dryRun, verbose bool) {
@@ -99,9 +98,9 @@ func traverse(dir string, dryRun, verbose bool) {
 
 func main() {
 	showHelp := func() {
-		fmt.Println("\n ＊ wincase - make files live even on windows\n")
-		fmt.Println("\twincase is a simple utility to recursively replace\n\tforbidden characters on Windows platforms\n\twith 2-byte corresponding characters\n")
-		fmt.Println("Usage: wincase [options] target_dir\n")
+		fmt.Print("\n ＊ wincase - make files live even on windows\n\n")
+		fmt.Print("\twincase is a simple utility to recursively replace\n\tforbidden characters on Windows platforms\n\twith 2-byte corresponding characters\n\n")
+		fmt.Println("Usage: wincase [options] target_dir\n\n")
 		fmt.Println("Options:")
 		flag.PrintDefaults()
 		os.Exit(0)
