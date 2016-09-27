@@ -35,3 +35,6 @@ Windows環境でファイルやディレクトリ名に使えない半角文字�
 ヘルプを表示するには、
 ``wincase -h``
 とします。
+
+### Author
+craftgear (https://twitter.com/craftgear)

@@ -37,3 +37,6 @@ To run in verbose mode, run:
 
 To show help, run:
 ``wincase -h``
+
+### Author
+craftgear (https://twitter.com/craftgear)
